@@ -102,7 +102,7 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
 
 - `--verbose`
   - **Tipo**: boolean (flag)
-  - **Descripción**: Flag para mostrar logs en iteraciones de triángulos.
+  - **Descripción**: Flag para mostrar detalles de cada iteración del proceso en consola.
 
 - `--timelapse`
   - **Tipo**: boolean (flag)
