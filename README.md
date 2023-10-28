@@ -21,7 +21,7 @@ Para instalar las dependencias necesarias, es posible utilizar el siguiente coma
 
 ## Uso
 
-El programa se ejecuta medienta línea de comandos, siendo el único parámetro obligatorio una imagen de entrada:
+El programa se ejecuta mediante línea de comandos, siendo el único parámetro obligatorio una imagen de entrada:
 
 `python make_poly.py filename.png`
 
