@@ -23,7 +23,7 @@ Para instalar las dependencias necesarias, es posible utilizar el siguiente coma
 
 El programa se ejecuta medienta línea de comandos, siendo el único parámetro obligatorio una imagen de entrada:
 
-`python make_poly.py imagen.png`
+`python make_poly.py filename.png`
 
 Esto dará inicio al proceso de detección de bordes y generación de un archivo .poly utilizando los parámetros por defecto, entregando como resultado el archivo .poly generado a partir de la imagen ingresada
 
@@ -107,3 +107,17 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
 - `--timelapse`
   - **Tipo**: boolean (flag)
   - **Descripción**: Flag para la generación de un .gif ilustrando la evolución de la malla.
+
+### Herramientas extra
+
+El repositorio también incluye el archivo `view_poly.py`, el cual permite la visualización de archivos .poly a través de la generación de una imagen en formato .png. Es posible ejecutar este programa mediante el siguiente comando:
+
+`python view_poly.py filename.poly`
+
+De esta forma, es posible visualizar el archivo .poly inmediatamente después de su generación.
+
+Junto con eso, en la carpeta extra_tools se incluye el archivo `poly_metrics.py`, el cual permite generar un gráfico con las métricas de un archivo .poly. Este se ejecuta mediante el siguiente comando:
+
+`python poly_metrics.py filename.poly`
+
+De esta forma, es posible determinar la cantidad de elementos generados, así como medidas de tendencia central para las longitudes de las aristas generadas.
