@@ -1,97 +1,109 @@
-# make-poly-from-image
-Trabajo de título: Representación de imágenes mediante grafos planares
+# Make .poly from images
 
-python 3.11.2
+Este repositorio contiene el proyecto para el trabajo de título "Representación de imágenes mediante grafos planares". Esta herramienta permite la generación de archivos .poly a partir de imágenes .png, tomando como requisito que estas posean un fondo blanco que permita distinguir el fondo de la imagen de la figura a detectar.
 
-pip install -r requirements.txt
+## Tabla de contenidos
 
-python make_poly.py filename.png
+- [Requisitos](#requisitos)
+- [Instalación](#instalación)
+- [Uso](#uso)
+  - [Parámetros a recibir](#parámetros-a-recibir)
 
-optional arguments:
+## Requisitos
 
---method
+- Python (Versión 3.11.2 o posteriores)
 
-Representa el método a utilizar para la obtención de los bordes
-Valor por defecto: "canny"
-Valores posibles: "triangle" | "canny" | "t" | "c"
+## Instalación
 
---show
+Para instalar las dependencias necesarias, es posible utilizar el siguiente comando:
 
-Flag que muestra el resultado final del procesamiento, ya sea los bordes detectados para canny o los bordes y la malla generada para el método de triangulaciones.
+`pip install -r requirements.txt`
 
-Para canny:
+## Uso
 
---reduction
+El programa se ejecuta medienta línea de comandos, siendo el único parámetro obligatorio una imagen de entrada:
 
-Representa el algoritmo a utilizar para la eliminación de vértices y aristas
-Valor por defecto: "hybrid"
-Valores posibles: "fixed" | "variable" | "hybrid" | "f" | "v" | "h"
+`python make_poly.py imagen.png`
 
---len
+Esto dará inicio al proceso de detección de bordes y generación de un archivo .poly utilizando los parámetros por defecto, entregando como resultado el archivo .poly generado a partir de la imagen ingresada
 
-Representa la longitud máxima en pixeles de las aristas a generar (aplica sólo para método de reducción híbrido y fijo)
+### Parámetros a recibir
 
-Valor por defecto: 20
-Valores posibles: >0
+El programa posee una gran cantidad de parámetros opcionales, los cuales serán detallados a continuación:
 
---maxdist
+### Parámetros universales
 
-Representa la distancia máxima en pixeles de las aristas generadas a los bordes detectados en la imagen (aplica solo para método de reducción híbrido y variable)
+- `--method`
+  - **Tipo**: string
+  - **Valores posibles**: 'canny', 'triangle', 'c', 't'
+  - **Valor por defecto**: 'canny'
+  - **Descripción**: Representa el método a utilizar para la obtención de los bordes.
 
-Valor por defecto: 1
-Valores posibles: >0
+- `--show`
+  - **Tipo**: boolean (flag)
+  - **Descripción**: Permite mostrar el resultado final del procesamiento, ya sea los bordes detectados para canny o los bordes y la malla generada para el método de triangulaciones.
 
---fusedist
+### Parámetros para método de Canny
 
-Representa el largo mínimo de arista a generar en pixeles. Vértices a una distancia menor a este valor serán fusionados.
+- `--reduction`
+  - **Tipo**: string
+  - **Valores posibles**: 'fixed', 'variable', 'hybrid', 'f', 'v', 'h'
+  - **Valor por defecto**: 'hybrid'
+  - **Descripción**: Representa el algoritmo a utilizar para la eliminación de vértices y aristas.
 
-Valor por defecto: 5
-Valores posibles: >0
+- `--len`
+  - **Tipo**: int
+  - **Valor mínimo**: 1
+  - **Valor por defecto**: 20
+  - **Descripción**: Representa la longitud máxima en pixeles de las aristas a generar (aplica solamente para métodos de reducción híbrido y fijo).
 
-Para triangulación:
+- `--maxdist`
+  - **Tipo**: int
+  - **Valor mínimo**: 1
+  - **Valor por defecto**: 1
+  - **Descripción**: Representa la distancia máxima en pixeles entre las aristas generadas y los bordes detectados en la imagen (aplica solamente para métodos de reducción híbrido y variable).
 
---x
+- `--fusedist`
+  - **Tipo**: int
+  - **Valor mínimo**: 0
+  - **Valor por defecto**: 5
+  - **Descripción**: Representa el largo mínimo de arista a generar en pixeles. Vértices a una distancia menor a este valor serán fusionados.
 
-Representa la cantidad de celdas a generar para la malla inicial en el eje x
+### Parámetros para método de triangulación
 
-Valor por defecto: 20
-Valores posibles: >0
+- `--x`
+  - **Tipo**: int
+  - **Valor mínimo**: 1
+  - **Valor por defecto**: 20
+  - **Descripción**: Representa la cantidad de celdas a generar para la malla inicial en el eje x.
 
---y
+- `--y`
+  - **Tipo**: int
+  - **Valor mínimo**: 1
+  - **Valor por defecto**: 20
+  - **Descripción**: Representa la cantidad de celdas a generar para la malla inicial en el eje y.
 
-Representa la cantidad de celdas a generar para la malla inicial en el eje y
+- `--xy`
+  - **Tipo**: int or tuple
+  - **Valor por defecto**: (20,20)
+  - **Descripción**: Representa la cantidad de celdas a generar para ambos ejes. Toma prioridad por sobre los parámetros --x e --y. Puede recibir un entero (en caso de que ambas dimensiones posean el mismo valor) o una tupla. NOTA: Considerar que todas las imágenes son superpuestas en un lienzo cuadrado para el procesamiento. Por lo tanto, la única forma de generar celdas rectangulares es definir x e y con valores distintos.
 
-Valor por defecto: 20
-Valores posibles: >0
+- `--it`
+  - **Tipo**: int
+  - **Valor mínimo**: 0
+  - **Valor por defecto**: 40
+  - **Descripción**: Representa el número de iteraciones para el desplazamiento de vértices.
 
---xy
+- `--minlen`
+  - **Tipo**: int
+  - **Valor mínimo**: 1
+  - **Valor por defecto**: 3
+  - **Descripción**: Representa la longitud mínima en pixeles de las aristas a generar. Si la longitud de una arista no supera este valor, se elimina de la malla.
 
-Representa la cantidad de celdas a generar para ambos ejes. Toma prioridad por sobre los parámetros --x e --y.
-Puede recibir un entero (en caso de que ambas dimensiones posean el mismo valor) o una tupla. NOTA: Considerar que todas las imágenes son superpuestas en un lienzo cuadrado para el procesamiento. Por lo tanto, la única forma de generar celdas rectangulares es definir x e y con valores distintos.
+- `--verbose`
+  - **Tipo**: boolean (flag)
+  - **Descripción**: Flag para mostrar logs en iteraciones de triángulos.
 
-Valor por defecto: 20
-Valores posibles: >0 | (>0,>0)
-
---it
-
-Representa el número de iteraciones para el desplazamiento de vértices
-
-Valor por defecto: 40
-Valores posibles: >=0
-
---minlen
-
-Representa la longitud mínima en pixeles de las aristas a generar. Si la longitud de una arista no supera este valor, se elimina de la malla.
-
-Valor por defecto: 3
-Valores posibles: >0
-
---verbose
-
-Flag para mostrar logs en iteraciones de triángulos
-
---timelapse
-
-Flag para la generación de un gif ilustrando la evolución de la malla
-
-
+- `--timelapse`
+  - **Tipo**: boolean (flag)
+  - **Descripción**: Flag para la generación de un .gif ilustrando la evolución de la malla.
