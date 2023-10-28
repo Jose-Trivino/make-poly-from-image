@@ -569,7 +569,8 @@ class Graph:
 
             # If no more vectors remain in list, exit loop
             if len(edge_list) <= 0:
-                path_list.append(curr_path)
+                if curr_path is not None:
+                    path_list.append(curr_path)
                 break
 
             # If starting a new path, append first vector of list
@@ -694,10 +695,7 @@ class Graph:
 
         # Paths with only one edge are removed
         i = 0
-        while True:
-            if i >= len(path_list):
-                break
-
+        while i < len(path_list):
             if path_list[i].get_edges_len() <= 1:
                 path_list.pop(i)
             else:
@@ -962,11 +960,11 @@ class Image:
 
         img_h, img_w = bw_img.shape
 
-        if h > img_h:
+        if h+y > img_h:
             h = img_h
-            y = 0 
+            y = 0
 
-        if w > img_w:
+        if w+x > img_w:
             w = img_w
             x = 0 
 

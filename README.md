@@ -27,7 +27,7 @@ Para instalar las dependencias necesarias, es posible utilizar el siguiente coma
 
 El programa se ejecuta mediante línea de comandos, siendo el único parámetro obligatorio una imagen de entrada:
 
-`python make_poly.py filename.png`
+`python make_poly.py <input_image_path>`
 
 Esto dará inicio al proceso de detección de bordes y generación de un archivo .poly utilizando los parámetros por defecto, entregando como resultado el archivo .poly generado a partir de la imagen ingresada
 
@@ -79,6 +79,12 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
   - **Valor por defecto**: 5
   - **Descripción**: Representa el largo mínimo de arista a generar en pixeles. Vértices a una distancia menor a este valor serán fusionados.
 
+- `--pathdist`
+  - **Tipo**: int
+  - **Valor mínimo**: 0
+  - **Valor por defecto**: 15
+  - **Descripción**: Representa la distancia en pixeles a partir de la cual se llevará a cabo la fusión de caminos disjuntos y la generación de caminos cerrados.
+
 #### Parámetros para método de triangulación
 
 - `--x`
@@ -122,12 +128,18 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
 
 El repositorio también incluye el archivo `view_poly.py`, el cual permite la visualización de archivos .poly a través de la generación de una imagen en formato .png. Es posible ejecutar este programa mediante el siguiente comando:
 
-`python view_poly.py filename.poly`
+`python view_poly.py <poly_file_path>`
 
 De esta forma, es posible visualizar el archivo .poly inmediatamente después de su generación.
 
-Junto con eso, en la carpeta extra_tools se incluye el archivo `poly_metrics.py`, el cual permite generar un gráfico con las métricas de un archivo .poly. Este se ejecuta mediante el siguiente comando:
+Junto con eso, en la carpeta extra_tools se incluyen dos herramientas que permiten obtener información tanto acerca de la imagen como de los archivos generados. El primero es el archivo `poly_metrics.py`, el cual permite generar un gráfico con las métricas de un archivo .poly. Este se ejecuta mediante el siguiente comando:
 
-`python poly_metrics.py filename.poly`
+`python poly_metrics.py <poly_file_path>`
 
 De esta forma, es posible determinar la cantidad de elementos generados, así como medidas de tendencia central para las longitudes de las aristas generadas.
+
+El segundo archivo presente en la carpeta extra_tools corresponde a `view_thresh.py`, a través del cual es posible visualizar el resultado de aplicar la función de thresholding a una imagen. Este se ejecuta mediante el siguiente comando:
+
+`python thresholding.py <input_image_path> <threshold_value>`
+
+Esto mostrará la imagen tras aplicar la función de thresholding, siendo los valores posibles para el threshold enteros entre 0 y 255.

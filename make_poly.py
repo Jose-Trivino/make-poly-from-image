@@ -102,7 +102,7 @@ def main(method, image, params, show):
 canny_params = [
     "hybrid", # Reduction method
     [20,1], # Reduction parameters
-    10, # Maximum reduction distance
+    15, # Maximum reduction distance
     5, # Maximum fuse distance
     254  # Black-white threshold
     ]
@@ -129,6 +129,7 @@ parser.add_argument("--reduction")  # Reduction method (fixed, variable, mixed)
 parser.add_argument("--len")        # Edge length (for fixed and mixed)
 parser.add_argument("--maxdist")    # Maximum distance (for variable and mixed)
 parser.add_argument("--fusedist")   # Maximum distance (for variable and mixed)
+parser.add_argument("--pathdist")   # Maximum distance for path fusion
 
 parser.add_argument("--x")          # Horizontal triangle number
 parser.add_argument("--y")          # Vertical triangle number
@@ -161,6 +162,8 @@ else:
         canny_params[1][1] = float(args.maxdist)
     if args.fusedist:
         canny_params[3] = int(args.fusedist)
+    if args.pathdist:
+        canny_params[2] = int(args.pathdist)
     
     if canny_params[0][0] != "h":
         if canny_params[0][0] == "f":

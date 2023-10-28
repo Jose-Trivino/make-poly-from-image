@@ -739,11 +739,11 @@ class Image:
 
         img_h, img_w = bw_img.shape
 
-        if h > img_h:
+        if h+y > img_h:
             h = img_h
             y = 0 
 
-        if w > img_w:
+        if w+x > img_w:
             w = img_w
             x = 0 
 
