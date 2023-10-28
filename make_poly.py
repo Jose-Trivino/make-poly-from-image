@@ -123,6 +123,7 @@ used_params = canny_params
 parser = argparse.ArgumentParser()
 parser.add_argument("filename")       # Filename
 parser.add_argument("--method")     # Method used
+parser.add_argument("--thresh")     # Thresholding function value
 
 parser.add_argument("--reduction")  # Reduction method (fixed, variable, mixed)
 parser.add_argument("--len")        # Edge length (for fixed and mixed)
@@ -149,6 +150,10 @@ else:
     if args.reduction:
         if args.reduction[0] in ["f","v","h"]:
             canny_params[0] = args.reduction
+
+    if args.thresh:
+        canny_params[4] = int(args.thresh)
+        triangle_params[2] = int(args.thresh)
     
     if args.len:
         canny_params[1][0] = int(args.len)

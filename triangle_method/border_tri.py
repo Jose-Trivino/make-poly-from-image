@@ -154,8 +154,7 @@ def main(filename, triangle_dim, iterations, bw_thresh, min_e_len, verbose=False
             t0 = t1
         
         except Exception as e:
-            print(e)
-            print("Error durante la ejecución. Por favor reintentar con otro conjunto de parámetros.")
+            print("Error durante la ejecución. Por favor reintentar con otro conjunto de parámetros.\n")
             return [[], None]
 
     # End of refinement

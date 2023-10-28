@@ -101,7 +101,7 @@ def draw_poly(file_path):
 
     name = file_path.split(".")[-2]
 
-    cv2.imshow('Edges', canvas)
+    cv2.imshow('Poly', canvas)
     cv2.imwrite(name + "_poly.png", canvas)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

@@ -280,25 +280,10 @@ class Path:
             x2, y2 = p2
             x0, y0 = p
 
+            if (x1, y1) == (x2, y2):
+                return math.sqrt((x0 - x1)**2 + (y0 - y1)**2)
+
             return abs((x2-x1)*(y1-y0) - (x1-x0)*(y2-y1))/math.sqrt(((x2-x1)**2)+((y2-y1)**2))
-    
-        def line_point_dist_2(p1,p2,p):
-            p = np.array(p)
-            p1 = np.array(p1)
-            p2 = np.array(p2)
-
-            line_dir = p2 - p1
-            dot_product = np.dot(line_dir, line_dir)
-
-            if dot_product == 0:
-                return np.linalg.norm(p - p1)
-
-            v = p - p1
-            projection = np.dot(v, line_dir) / dot_product * line_dir
-            distance_vector = v - projection
-            distance = np.linalg.norm(distance_vector)
-
-            return distance
         
         start_e = 0
         # Array of eliminated points for future comparison
@@ -344,6 +329,9 @@ class Path:
             x1, y1 = p1
             x2, y2 = p2
             x0, y0 = p
+
+            if (x1, y1) == (x2, y2):
+                return math.sqrt((x0 - x1)**2 + (y0 - y1)**2)
 
             return abs((x2-x1)*(y1-y0) - (x1-x0)*(y2-y1))/math.sqrt(((x2-x1)**2)+((y2-y1)**2))
         
@@ -931,13 +919,76 @@ class Image:
     # Image object
     def __init__(self, filename, t_lower, t_upper, bw_thresh):
         self.filename = filename
-        self.original = cv2.imread(self.filename)
 
-        color_copy = copy.deepcopy(self.original)
+        color_img = cv2.imread(self.filename) # Color image
+        color_copy = copy.deepcopy(color_img)
+
         grey_img = cv2.cvtColor(color_copy, cv2.COLOR_BGR2GRAY)
         thresh, bw_img = cv2.threshold(grey_img, bw_thresh, 255, cv2.THRESH_BINARY)
-        
-        self.canny = cv2.Canny(bw_img, t_lower, t_upper)
+        inverted = cv2.bitwise_not(bw_img)
+
+        contours, _ = cv2.findContours(inverted, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        all_points = []
+        for contour in contours:
+            all_points.extend(contour)
+
+        rect = cv2.minAreaRect(np.array(all_points))
+
+        # Get the coordinates of the bounding box
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+
+        x_values = [point[0] for point in box]
+        y_values = [point[1] for point in box]
+
+        min_x = min(x_values)
+        max_x = max(x_values)
+        min_y = min(y_values)
+        max_y = max(y_values)
+
+        # Calculate the width and height
+        w = max_x - min_x
+        h = max_y - min_y
+
+        # Calculate the x and y coordinates
+        x = min_x
+        y = min_y
+
+        if y < 0:
+            y = 0
+        if x < 0:
+            x = 0
+
+        img_h, img_w = bw_img.shape
+
+        if h > img_h:
+            h = img_h
+            y = 0 
+
+        if w > img_w:
+            w = img_w
+            x = 0 
+
+        cropped_bw = bw_img[y:y+h, x:x+w]
+        cropped_color = color_img[y:y+h, x:x+w]
+
+        padding_x = round(w*0.1)
+        padding_y = round(h*0.1)
+        canvas_dim = max(h + padding_x*2, w + padding_y*2)
+
+        color_canvas = np.zeros((canvas_dim, canvas_dim, 3), dtype=np.uint8)
+        color_canvas[:] = (255, 255, 255)
+        bw_canvas = np.ones((canvas_dim, canvas_dim), dtype=np.uint8) * 255
+
+        x_pos = (canvas_dim-w)//2
+        y_pos = (canvas_dim-h)//2
+
+        bw_canvas[y_pos:y_pos+h, x_pos:x_pos+w] = cropped_bw
+        color_canvas[y_pos:y_pos+h, x_pos:x_pos+w] = cropped_color
+
+        self.original = color_canvas
+        self.canny = cv2.Canny(bw_canvas, t_lower, t_upper)
         self.graph = None
 
     ###############

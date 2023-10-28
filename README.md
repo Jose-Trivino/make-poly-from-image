@@ -43,6 +43,12 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
   - **Tipo**: boolean (flag)
   - **Descripción**: Permite mostrar el resultado final del procesamiento, ya sea los bordes detectados para canny o los bordes y la malla generada para el método de triangulaciones.
 
+- `--thresh`
+  - **Tipo**: int
+  - **Rango**: [0, 255]
+  - **Valor por defecto**: 254
+  - **Descripción**: Valor umbral para función de thresholding. Todo pixel cuyo valor en escala de grises supere el valor definido será transformado a blanco, y en caso contrario será transformado a negro.
+
 ### Parámetros para método de Canny
 
 - `--reduction`
