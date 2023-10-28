@@ -8,6 +8,10 @@ Este repositorio contiene el proyecto para el trabajo de título "Representació
 - [Instalación](#instalación)
 - [Uso](#uso)
   - [Parámetros a recibir](#parámetros-a-recibir)
+    - [Parámetros universales](#parámetros-a-recibir)
+    - [Parámetros para método de Canny](#parámetros-para-método-de-canny)
+    - [Parámetros para método de triangulación](#parámetros-para-método-de-triangulación)
+- [Herramientas extra](#herramientas-extra)
 
 ## Requisitos
 
@@ -31,7 +35,7 @@ Esto dará inicio al proceso de detección de bordes y generación de un archivo
 
 El programa posee una gran cantidad de parámetros opcionales, los cuales serán detallados a continuación:
 
-### Parámetros universales
+#### Parámetros universales
 
 - `--method`
   - **Tipo**: string
@@ -49,7 +53,7 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
   - **Valor por defecto**: 254
   - **Descripción**: Valor umbral para función de thresholding. Todo pixel cuyo valor en escala de grises supere el valor definido será transformado a blanco, y en caso contrario será transformado a negro.
 
-### Parámetros para método de Canny
+#### Parámetros para método de Canny
 
 - `--reduction`
   - **Tipo**: string
@@ -75,7 +79,7 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
   - **Valor por defecto**: 5
   - **Descripción**: Representa el largo mínimo de arista a generar en pixeles. Vértices a una distancia menor a este valor serán fusionados.
 
-### Parámetros para método de triangulación
+#### Parámetros para método de triangulación
 
 - `--x`
   - **Tipo**: int
@@ -114,7 +118,7 @@ El programa posee una gran cantidad de parámetros opcionales, los cuales serán
   - **Tipo**: boolean (flag)
   - **Descripción**: Flag para la generación de un .gif ilustrando la evolución de la malla.
 
-### Herramientas extra
+## Herramientas extra
 
 El repositorio también incluye el archivo `view_poly.py`, el cual permite la visualización de archivos .poly a través de la generación de una imagen en formato .png. Es posible ejecutar este programa mediante el siguiente comando:
 
